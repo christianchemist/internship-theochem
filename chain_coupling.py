@@ -49,6 +49,18 @@ def chroms_hamiltonian(number, chroms):
 
     return H
 
+def dimer_intensities(inMatDip, inMatEigV):
+    """Calculates the spectral intensities for a chromophor dimer"""
+    outMatInt = []
+    for i in range(2):
+        
+        c = inMatEigV[:, i]
+        mu_i = np.matmul(inMatDip, c)
+        outMatInt.append(np.dot(mu_i, mu_i))
+
+    return outMatInt
+
+
 
 if __name__ == "__main__":
 
@@ -59,17 +71,35 @@ if __name__ == "__main__":
     #for j in chromophors:
     #    print(j.position, j.dipole)
 
-    num_chromo = 3
-    positions = np.array([[1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6], [7, 7, 7], [8, 8, 8], [9, 9, 9], [10, 10, 10]])
-    dipole_moment = [1.2, 2.2, 3.2]
+    num_chromo = 2
+    positions = np.array([[1, 0, 0], [2, 3, 7], [100, 0 , 0]])
+    j_dipole_moment = [0, 1, 0]
+    h_dipole_moment = [1, 0, 0]
     chromophors = []
-
-    for iter in range(num_chromo):
-        chromophors.append(chromophor(positions[iter], dipole_moment))
+    mode = "j"
     
+
+    if mode == "j":
+        for iter in range(num_chromo):
+            chromophors.append(chromophor(positions[iter], j_dipole_moment))
+            temp = np.atleast_2d(j_dipole_moment).T
+            mat_dipole = np.hstack([temp, temp])
+    elif mode == "h":
+        for iter in range(num_chromo):
+            chromophors.append(chromophor(positions[iter], h_dipole_moment))
+            temp = np.atleast_2d(h_dipole_moment).T
+            mat_dipole = np.hstack([temp, temp])
+    else:
+        print("Select correct mode")
+    
+    print(mat_dipole)
+
     #print(chromophors)
 
     my_H = chroms_hamiltonian(num_chromo, chromophors)
     print(my_H)
     diag, eig = dg(my_H)
-    print(np.diag(diag))
+    #print(np.diag(diag))
+    #print(eig)
+    #print(eig[:, 0])
+    print(dimer_intensities(mat_dipole, eig))
