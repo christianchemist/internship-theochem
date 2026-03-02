@@ -15,6 +15,19 @@ class chromophor:
         return f"chromophor(position={self.position}, dipole={self.dipole})"
     
 
+def generate_positions(num_chromo, spacing=1, mode="trivial"):
+    
+    """Generates an array of positions for chromophors in a chain with a given spacing. Encodes if the spacing is supposed to respresent a trivial or topological chain by the start of alternate spacing"""
+    
+    if mode == "trivial":
+        return np.array([[i * spacing + (i // 2), 0, 0] for i in range(num_chromo)])
+    
+    elif mode == "topological":
+        return np.array([[i * spacing + ((i+1) // 2), 0, 0] for i in range(num_chromo)])
+    
+    else:
+        raise ValueError("Invalid mode. Use 'trivial' or 'topological'.")
+    
 
 def pair_coupling(pos1, pos2, dip1, dip2, C = 1):
 
@@ -30,6 +43,16 @@ def pair_coupling(pos1, pos2, dip1, dip2, C = 1):
     coupling = C * ((np.dot(dip1, dip2) / r3) - 3 * ( (np.dot(dip1, distance_vec) * np.dot(distance_vec, dip2)) / r5 ))
 
     return coupling
+
+def plot_spectrum(energies, intensities):
+    
+    """Plots the spectrum of a chromophor chain given the energies and intensities"""
+
+    plt.bar(energies, intensities)
+    plt.xlabel("Energy")
+    plt.ylabel("Intensity")
+    plt.title("Spectrum of Chromophor Chain")
+    plt.show()
 
 
 def chroms_hamiltonian(chroms):
@@ -66,8 +89,6 @@ def intensities(inMatDip, inMatEigV):
     return outMatInt
 
 
-
-
 if __name__ == "__main__":
 
     #test1 = chromophor("pos", "dipole")
@@ -76,7 +97,7 @@ if __name__ == "__main__":
     #    print(j.position, j.dipole)
 
     num_chromo = 7
-    positions = np.array([[1, 0, 0], [2, 0, 0], [3, 0, 0], [4, 0, 0], [5, 0, 0], [6, 0, 0], [7, 0, 0]]) # set positions for chromophors in a chain
+    positions = generate_positions(num_chromo, spacing=1, mode="trivial")
     j_dipole_moment = [0, 1, 0]
     h_dipole_moment = [1, 0, 0]
     chromophors = []
@@ -86,12 +107,12 @@ if __name__ == "__main__":
     if mode == "j": #lazy way to select the dipole moment for the chromophors, could be done more elegant with a function or something but it works for now
         for iter in range(num_chromo):
             chromophors.append(chromophor(positions[iter], j_dipole_moment))
-            temp = np.atleast_2d(j_dipole_moment).T
+
             
     elif mode == "h":
         for iter in range(num_chromo):
             chromophors.append(chromophor(positions[iter], h_dipole_moment))
-            temp = np.atleast_2d(h_dipole_moment).T
+
     else:
         print("Select correct mode")
 
@@ -104,7 +125,11 @@ if __name__ == "__main__":
     my_H = chroms_hamiltonian(chromophors)
     print(my_H)
     diag, eig = dg(my_H)
-    #print(np.diag(diag))
+    diadiag = np.diag(diag)
+    print(diadiag)
     #print(eig)
     #print(eig[:, 0])
-    print(intensities(mat_dipole, eig))
+    intents = intensities(mat_dipole, eig)
+    print(intents)
+    
+    plot_spectrum(diadiag, intents)
