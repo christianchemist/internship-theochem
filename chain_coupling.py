@@ -28,10 +28,11 @@ def pair_coupling(pos1, pos2, dip1, dip2, C = 1):
     return coupling
 
 
-def chroms_hamiltonian(number, chroms):
+def chroms_hamiltonian(chroms):
 
     """computes the hamiltonian for electron coupling in a chromophor chain"""
 
+    number = len(chroms)
     H = np.zeros((number, number))
 
     for i in range(number):
@@ -44,15 +45,15 @@ def chroms_hamiltonian(number, chroms):
             m_dip = chroms[m].dipole
 
             temp = pair_coupling(i_pos, m_pos, i_dip, m_dip)
-            H[i, m] = temp
-            H[m, i] = temp
+            H[i, m] = H[m, i] = temp
 
     return H
 
-def dimer_intensities(inMatDip, inMatEigV):
-    """Calculates the spectral intensities for a chromophor dimer"""
+def intensities(inMatDip, inMatEigV):
+    """Calculates the spectral intensities for a chromophor dimer""" #support added for longer chains
     outMatInt = []
-    for i in range(2):
+    N = inMatEigV.shape[1]
+    for i in range(N):
         
         c = inMatEigV[:, i]
         mu_i = np.matmul(inMatDip, c)
@@ -66,13 +67,11 @@ if __name__ == "__main__":
 
     #test1 = chromophor("pos", "dipole")
     #print(test1.position, test1.dipole)
-
-
     #for j in chromophors:
     #    print(j.position, j.dipole)
 
-    num_chromo = 2
-    positions = np.array([[1, 0, 0], [2, 0, 0], [3, 0 , 0]])
+    num_chromo = 3
+    positions = np.array([[1, 0, 0], [2, 0, 0], [3, 0, 0]])
     j_dipole_moment = [0, 1, 0]
     h_dipole_moment = [1, 0, 0]
     chromophors = []
@@ -83,23 +82,24 @@ if __name__ == "__main__":
         for iter in range(num_chromo):
             chromophors.append(chromophor(positions[iter], j_dipole_moment))
             temp = np.atleast_2d(j_dipole_moment).T
-            mat_dipole = np.hstack([temp, temp])
+            
     elif mode == "h":
         for iter in range(num_chromo):
             chromophors.append(chromophor(positions[iter], h_dipole_moment))
             temp = np.atleast_2d(h_dipole_moment).T
-            mat_dipole = np.hstack([temp, temp])
     else:
         print("Select correct mode")
-    
+
+
+    mat_dipole = np.column_stack([ch.dipole for ch in chromophors])  # (3, N)
     print(mat_dipole)
 
     #print(chromophors)
 
-    my_H = chroms_hamiltonian(num_chromo, chromophors)
+    my_H = chroms_hamiltonian(chromophors)
     print(my_H)
     diag, eig = dg(my_H)
     #print(np.diag(diag))
     #print(eig)
     #print(eig[:, 0])
-    print(dimer_intensities(mat_dipole, eig))
+    print(intensities(mat_dipole, eig))
