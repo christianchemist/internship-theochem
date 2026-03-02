@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
-from ssh_tools import diagonalise as dg
+from ssh_tools import diagonalise as dg, ssh_hamiltonian as sshH
 
 class chromophor:
     
@@ -10,6 +10,10 @@ class chromophor:
     def __init__(self, position, dipole):
         self.position = position
         self.dipole = dipole
+    
+    def __repr__(self):
+        return f"chromophor(position={self.position}, dipole={self.dipole})"
+    
 
 
 def pair_coupling(pos1, pos2, dip1, dip2, C = 1):
@@ -63,6 +67,7 @@ def intensities(inMatDip, inMatEigV):
 
 
 
+
 if __name__ == "__main__":
 
     #test1 = chromophor("pos", "dipole")
@@ -70,15 +75,15 @@ if __name__ == "__main__":
     #for j in chromophors:
     #    print(j.position, j.dipole)
 
-    num_chromo = 3
-    positions = np.array([[1, 0, 0], [2, 0, 0], [3, 0, 0]])
+    num_chromo = 7
+    positions = np.array([[1, 0, 0], [2, 0, 0], [3, 0, 0], [4, 0, 0], [5, 0, 0], [6, 0, 0], [7, 0, 0]]) # set positions for chromophors in a chain
     j_dipole_moment = [0, 1, 0]
     h_dipole_moment = [1, 0, 0]
     chromophors = []
     mode = "j" #set user preferance for dipole moment, "j" for j-type and "h" for h-type
     
 
-    if mode == "j":
+    if mode == "j": #lazy way to select the dipole moment for the chromophors, could be done more elegant with a function or something but it works for now
         for iter in range(num_chromo):
             chromophors.append(chromophor(positions[iter], j_dipole_moment))
             temp = np.atleast_2d(j_dipole_moment).T
