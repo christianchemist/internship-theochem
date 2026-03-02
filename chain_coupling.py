@@ -72,11 +72,11 @@ if __name__ == "__main__":
     #    print(j.position, j.dipole)
 
     num_chromo = 2
-    positions = np.array([[1, 0, 0], [2, 3, 7], [100, 0 , 0]])
+    positions = np.array([[1, 0, 0], [2, 0, 0], [3, 0 , 0]])
     j_dipole_moment = [0, 1, 0]
     h_dipole_moment = [1, 0, 0]
     chromophors = []
-    mode = "j"
+    mode = "j" #set user preferance for dipole moment, "j" for j-type and "h" for h-type
     
 
     if mode == "j":
