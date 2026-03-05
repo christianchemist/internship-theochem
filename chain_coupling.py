@@ -44,20 +44,48 @@ def pair_coupling(pos1, pos2, dip1, dip2, C = 1):
 
     return coupling
 
-def plot_spectrum(energies, intensities):
+def plot_spectrum(energies, intensities, mode="delta", sigma=0.1):
     
-    """Plots the spectrum of a chromophor chain given the energies and intensities"""
+    """Plots the spectrum of a chromophor chain given the energies and intensities""" #at the moment the gaussians arent added together but just overlayed, this could be fixed by adding the gaussians to a common array and plotting that at the end, but it works for now
 
-    plt.bar(energies, intensities)
-    plt.xlabel("Energy")
-    plt.ylabel("Intensity")
-    plt.title("Spectrum of Chromophor Chain")
-    plt.show()
+    normalised_intensities = intensities / np.max(intensities)
 
+    if mode == "delta":
+        plt.vlines(energies, 0, normalised_intensities, colors='b', lw=2)
+        plt.xlabel("Energy")
+        plt.ylabel("Intensity")
+        plt.title("Spectrum of Chromophor Chain")
+        plt.show()
+
+    if mode == "gaussian":
+        for energy, intensity in zip(energies, normalised_intensities):
+            x = np.linspace(energy + 1, energy - 1, 1000)
+            y = intensity * np.exp(-0.5 * ((x - energy) / sigma) ** 2) / (sigma * np.sqrt(2 * np.pi))
+            plt.plot(x, y, color='b')
+        plt.xlabel("Energy")
+        plt.ylabel("Intensity")
+        plt.title("Spectrum of Chromophor Chain")
+        plt.show()
+
+    if mode == "dual": # for debugging purposes, shows both the delta and gaussian spectrum, the gaussians are added together to show the overall spectrum of the chain. gaussian not working as intended (still no corect addition of the gauss curves; domain not correct either).
+        gaussians = np.zeros(1000)
+        for energy, intensity in zip(energies, normalised_intensities):
+            x = np.linspace(energy + 5*sigma, energy - 5*sigma, 1000)
+            y = intensity * np.exp(-0.5 * ((x - energy) / sigma) ** 2) / (sigma * np.sqrt(2 * np.pi))
+            gaussians += y
+        total_domain = np.linspace(max(energies) * (-1) - 5*sigma, max(energies) + 5*sigma, 1000)
+        plt.plot(total_domain, gaussians, color='b')
+        plt.vlines(energies, 0, normalised_intensities, colors='r', lw=2)
+        plt.xlabel("Energy")
+        plt.ylabel("Intensity")
+        plt.title("Spectrum of Chromophor Chain")
+        plt.show()
 
 def chroms_hamiltonian(chroms):
 
-    """computes the hamiltonian for electron coupling in a chromophor chain"""
+    """Computes the hamiltonian for electron coupling in a chromophor chain. \n
+    Onsite energy is neglected and only the coupling between chromophors is considered.\n
+    Takes a list of chromophors as input and returns the hamiltonian matrix."""
 
     number = len(chroms)
     H = np.zeros((number, number))
@@ -77,7 +105,7 @@ def chroms_hamiltonian(chroms):
     return H
 
 def intensities(inMatDip, inMatEigV):
-    """Calculates the spectral intensities for a chromophor dimer""" #support added for longer chains
+    """Calculates the spectral intensities for a chromophor chain. Takes the matrix of dipole moments and the matrix of eigenvectors as input and returns a list of intensities for each eigenstate."""
     outMatInt = []
     N = inMatEigV.shape[1]
     for i in range(N):
@@ -96,7 +124,7 @@ if __name__ == "__main__":
     #for j in chromophors:
     #    print(j.position, j.dipole)
 
-    num_chromo = 7
+    num_chromo = 21
     positions = generate_positions(num_chromo, spacing=1, mode="trivial")
     j_dipole_moment = [0, 1, 0]
     h_dipole_moment = [1, 0, 0]
@@ -132,4 +160,4 @@ if __name__ == "__main__":
     intents = intensities(mat_dipole, eig)
     print(intents)
     
-    plot_spectrum(diadiag, intents)
+    plot_spectrum(diadiag, intents, mode="dual", sigma=0.02)
