@@ -46,7 +46,7 @@ def pair_coupling(pos1, pos2, dip1, dip2, C = 1):
 
 def plot_spectrum(energies, intensities, mode="", sigma=0.1):
     
-    """Plots the spectrum of a chromophor chain given the energies and intensities""" #at the moment the gaussians arent added together but just overlayed, this could be fixed by adding the gaussians to a common array and plotting that at the end, but it works for now
+    """Plots the spectrum of a chromophor chain given the energies and intensities""" #fixed, peak height now proportional to intensity and not normalised to 1, also added option for delta peaks, gaussian peaks or both
 
     normalised_intensities = intensities / np.max(intensities)
 
@@ -59,11 +59,11 @@ def plot_spectrum(energies, intensities, mode="", sigma=0.1):
 
     else:
         gaussians = np.zeros(2000)
-        total_domain = np.linspace(max(energies) * (-1) - 5*sigma, max(energies) + 5*sigma, 2000)
+        total_domain = np.linspace(min(energies) - 5*sigma, max(energies) + 5*sigma, 2000)
         
         for energy, intensity in zip(energies, normalised_intensities):
             
-            y = intensity * np.exp(-0.5 * ((total_domain - energy) / sigma) ** 2) / (sigma * np.sqrt(2 * np.pi))
+            y = intensity * np.exp(-0.5 * ((total_domain - energy) / sigma) ** 2) 
             gaussians += y
         plt.plot(total_domain, gaussians, color='b')
         
