@@ -31,7 +31,7 @@ def generate_positions(num_chromo, spacing=1, mode="trivial"):
 
 def pair_coupling(pos1, pos2, dip1, dip2, C = 1):
 
-    """Calculates the coupling of two chromophores with two different positions pos1 and pos1, two differnt transition dipole moments dip1 and dip2 and a constant C for SI/Natural conversion."""
+    """Calculates the coupling of two chromophores with two different positions pos1 and pos2, two different transition dipole moments dip1 and dip2 and a constant C for SI/Natural conversion."""
 
     distance_vec = np.diff([pos1, pos2], axis=0).ravel()
     distance_scal = np.linalg.norm(distance_vec)
@@ -110,6 +110,10 @@ def intensities(inMatDip, inMatEigV):
 
     return outMatInt
 
+def helix_curve(t, r=1, h=1):
+    """Simple WIP helix function"""
+    vectorpos = np.array([r * np.cos(2*np.pi*t), r * np.sin(2*np.pi*t), h * t])
+    return vectorpos
 
 if __name__ == "__main__":
 
