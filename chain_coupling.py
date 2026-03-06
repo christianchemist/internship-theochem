@@ -115,6 +115,8 @@ def helix_curve(t, r=1, h=1):
     vectorpos = np.array([r * np.cos(2*np.pi*t), r * np.sin(2*np.pi*t), h * t])
     return vectorpos
 
+
+
 if __name__ == "__main__":
 
     #test1 = chromophor("pos", "dipole")
@@ -124,6 +126,8 @@ if __name__ == "__main__":
 
     num_chromo = 10
     positions = generate_positions(num_chromo, spacing=1, mode="topological")
+    helix_positions = np.array([helix_curve(t) for t in np.linspace(0, 1, num_chromo)]) 
+
     
     # place for dipole generatrion function, see TODO
     j_dipole_moment = [0, 1, 0]
