@@ -99,7 +99,7 @@ def chroms_hamiltonian(chroms):
     return H
 
 def intensities(inMatDip, inMatEigV):
-    """Calculates the spectral intensities for a chromophor chain. Takes the matrix of dipole moments and the matrix of eigenvectors as input and returns a list of intensities for each eigenstate."""
+    """Calculates the spectral intensities for a chromophor chain. \nTakes the matrix of dipole moments and the matrix of eigenvectors as input and returns a list of intensities for each eigenstate."""
     outMatInt = []
     N = inMatEigV.shape[1]
     for i in range(N):
@@ -119,7 +119,9 @@ if __name__ == "__main__":
     #    print(j.position, j.dipole)
 
     num_chromo = 10
-    positions = generate_positions(num_chromo, spacing=1, mode="trivial")
+    positions = generate_positions(num_chromo, spacing=1, mode="topological")
+    
+    # place for dipole generatrion function, see TODO
     j_dipole_moment = [0, 1, 0]
     h_dipole_moment = [1, 0, 0]
     chromophors = []
@@ -140,18 +142,20 @@ if __name__ == "__main__":
 
 
     mat_dipole = np.column_stack([ch.dipole for ch in chromophors])  # (3, N)
-    print(mat_dipole)
+    #print(mat_dipole)
 
     #print(chromophors)
 
     my_H = chroms_hamiltonian(chromophors)
-    print(my_H)
+    #print(my_H)
     diag, eig = dg(my_H)
     diadiag = np.diag(diag)
-    print(diadiag)
+    #print(diadiag)
     #print(eig)
     #print(eig[:, 0])
     intents = intensities(mat_dipole, eig)
-    print(intents)
+    #print(intents)
     
     plot_spectrum(diadiag, intents, sigma=0.01)
+
+#TODO: add position of chromophors on a helix to prepare for the real project. Wikipedia has a parametrised curve for a helix, should be easy to implement. Make dipolemoment perpendicular to z axis and make a function to generate dipMom with the position in the helix (angles).
