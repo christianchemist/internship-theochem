@@ -44,7 +44,7 @@ def pair_coupling(pos1, pos2, dip1, dip2, C = 1):
 
     return coupling
 
-def plot_spectrum(energies, intensities, mode="", sigma=0.1):
+def plot_energy_intensity(energies, intensities, mode="", sigma=0.1, x_label="Energy", y_label="Intensity", header="Spectrum"):
     
     """Plots the spectrum of a chromophor chain given the energies and intensities""" #fixed, peak height now proportional to intensity and not normalised to 1, also added option for delta peaks, gaussian peaks or both
 
@@ -52,9 +52,10 @@ def plot_spectrum(energies, intensities, mode="", sigma=0.1):
 
     if mode == "delta":
         plt.vlines(energies, 0, normalised_intensities, colors='b', lw=2)
-        plt.xlabel("Energy")
-        plt.ylabel("Intensity")
-        plt.title("Spectrum of Chromophor Chain")
+        plt.axhline(0, linewidth=1)
+        plt.xlabel(x_label)
+        plt.ylabel(y_label)
+        plt.title(header)
         plt.show()
 
     else:
@@ -69,9 +70,9 @@ def plot_spectrum(energies, intensities, mode="", sigma=0.1):
         
         if mode == "dual":
             plt.vlines(energies, 0, normalised_intensities, colors='r', lw=2)
-        plt.xlabel("Energy")
-        plt.ylabel("Intensity")
-        plt.title("Spectrum of Chromophor Chain")
+        plt.xlabel(x_label)
+        plt.ylabel(y_label)
+        plt.title(header)
         plt.show()
 
 
@@ -112,7 +113,7 @@ def intensities(inMatDip, inMatEigV):
 
 def helix_curve(t, r=1, h=1):
     """Simple WIP helix function"""
-    vectorpos = np.array([r * np.cos(2*np.pi*t), r * np.sin(2*np.pi*t), h * t])
+    vectorpos = np.array([r * np.cos(2*np.pi*t), r * np.sin(2*np.pi*t), h * t]) #this is the parametrisation of a helix, r is the radius and h is the height per winding, t is the parameter that goes from 0 to 1 for one winding, so for multiple windings we can just multiply t by the number of windings. The function returns the position of a point on the helix given the parameter t. 
     return vectorpos
 
 
@@ -164,6 +165,6 @@ if __name__ == "__main__":
     intents = intensities(mat_dipole, eig)
     #print(intents)
     
-    plot_spectrum(diadiag, intents, sigma=0.01)
+    plot_energy_intensity(diadiag, intents, sigma=0.01)
 
 #TODO: add position of chromophors on a helix to prepare for the real project. Wikipedia has a parametrised curve for a helix, should be easy to implement. Make dipolemoment perpendicular to z axis and make a function to generate dipMom with the position in the helix (angles).
