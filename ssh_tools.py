@@ -25,6 +25,14 @@ def ssh_hamiltonian(cells, v, w, exEnerg=0.0, start="v"):
 
     return H
 
+def placeholder():
+
+    """Placeholder function for testing purposes. Returns a 2N*2N array with random values."""
+
+    n = 20
+    H = np.random.rand(n, n)
+    H = (H + H.T) / 2 # make it symmetric
+    return H
 
 def diagonalise(inMat):
 
