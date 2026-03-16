@@ -8,17 +8,6 @@ from chain_coupling import intensities, plot_energy_intensity
 from ssh_tools import plot_energy, plot_energy_comparison, npy_to_ndarray
 import os
 
-# def helix_curve(t, r=1, h=1):
-#     """Simple WIP helix function"""
-#     vectorpos = np.array([r * np.cos(2*np.pi*t), r * np.sin(2*np.pi*t), h * t])
-#     return vectorpos
-
-# windings = np.arange(0, 10, 0.01)
-# helix_points = np.array([helix_curve(t) for t in windings])
-# fig = plt.figure()
-# ax = fig.add_subplot(111, projection='3d')
-# ax.plot(helix_points[:, 0], helix_points[:, 1], helix_points[:, 2])
-# plt.show()
 
 energies_a_dimer = np.array([3.822, 3.999, 4.552, 4.805, 4.986, 4.991, 5.062, 5.086, 5.142, 5.188, 5.288, 5.330]) # unused energies: 5.338, 5.369, 5.400, 5.428, 5.470, 5.489, 5.509, 5.555])
 energies_c_dimer = np.array([3.798, 3.973, 4.447, 4.609, 4.825, 4.944, 5.030, 5.033, 5.046, 5.070, 5.148, 5.213])
@@ -39,6 +28,3 @@ if __name__ == "__main__":
     print(DIALECT_energy_TotalArray.shape)
     plot_energy_comparison(nDimArray, list_setnames=namelist, mode="connected", title="DFT calculation energy comparison plot")
     plot_energy_comparison(DIALECT_energy_TotalArray, list_setnames=namelist, mode="connected", title="DIALECT energy comparison plot")
-
-# lcmo_spec = np.load("/home/praktikum/Chris/code/data/testdata/lcmo_spec.npy")
-# plot_energy_intensity(lcmo_spec[:, 0], lcmo_spec[:, 1], mode="delta", sigma=0.001)
