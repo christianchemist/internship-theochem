@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -45,6 +46,42 @@ def plot_energy(inArray, v_in="N/A", w_in="N/A"):
     ax.set_xlabel("Unit cell")
     ax.set_ylabel("Energy")
     ax.set_title(f"energy plot - v = {v_in} w = {w_in}")
+    plt.show()
+
+def npy_to_ndarray(data_path=""):
+    """Takes n .npy files and converts it to an n-Dimensional numpy array. Returns the numpy array. Hyperspecific implementation for the DIALECT energy data, assumes that the energies are in the first column and that we only want the first 12 values. The function can be easily adapted to other datasets by changing the values variable and the way the files are selected."""
+    
+    outArr = []
+    files = []
+    for entry in os.scandir(data_path):
+        if entry.is_file() and entry.name.endswith("cutout.npy"):
+            files.append(entry.path)
+
+    for file in files:
+        data = np.load(file)
+        values = data[:12, 0] # energies are in the first column, we only want the first 12 values
+        outArr.append(values)
+
+    outArr = np.array(outArr)
+    return outArr
+
+
+def plot_energy_comparison(inArrayMultDim, list_setnames=["dataset 1", "dataset 2", "dataset 3", "dataset 4"], mode="connected", title="energy comparison plot"):
+
+    """Takes in an n-Dimensional array and plots the energy corresponding to the eingenvalue Index. Uses multiple colors to differentiate between the different datasets. Can connect the dots with a slim line to make it easier to follow the trend. """
+    
+    x = np.arange(1, inArrayMultDim.shape[1]+1)
+    fig, ax = plt.subplots(figsize=(5, 4), layout="constrained")
+    for i in range(inArrayMultDim.shape[0]):
+        y = inArrayMultDim[i]
+        if mode == "connected":
+            ax.plot(x, y, "o-", label=f"{list_setnames[i]}")
+        else:
+            ax.plot(x, y, "o", label=f"{list_setnames[i]}")
+    ax.set_xlabel("Eigenvalue Index")
+    ax.set_ylabel("Energy")
+    ax.set_title(f"{title}")
+    ax.legend()
     plt.show()
 
 def plot_coefficients(inD, inP):
