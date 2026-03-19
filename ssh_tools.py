@@ -43,7 +43,7 @@ def diagonalise(inMat):
     return D, P
 
 
-def plot_energy(inArray, v_in="N/A", w_in="N/A"):
+def plot_energy(inArray, title="energy plot", v_in="N/A", w_in="N/A"):
     
     """Takes a flattened matrix (1D array) to plot the energy Eigenvalues."""
 
@@ -53,7 +53,10 @@ def plot_energy(inArray, v_in="N/A", w_in="N/A"):
     ax.plot(x, y, "go", label="test")
     ax.set_xlabel("Unit cell")
     ax.set_ylabel("Energy")
-    ax.set_title(f"energy plot - v = {v_in} w = {w_in}")
+    if v_in != "N/A" and w_in != "N/A":
+        ax.set_title(f"{title} --- v = {v_in} w = {w_in}")
+    else:
+        ax.set_title(title)
     plt.show()
 
 def npy_to_ndarray(data_path=""):
