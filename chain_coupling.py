@@ -133,7 +133,7 @@ if __name__ == "__main__":
     j_dipole_moment = [0, 1, 0]
     h_dipole_moment = [1, 0, 0]
     chromophors = []
-    mode = "j" #set user preferance for dipole moment, "j" for j-type and "h" for h-type
+    mode = "h" #set user preferance for dipole moment, "j" for j-type and "h" for h-type
     
 
     if mode == "j": #lazy way to select the dipole moment for the chromophors, could be done more elegant with a function or something but it works for now
