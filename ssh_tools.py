@@ -51,7 +51,7 @@ def plot_energy(inArray, title="energy plot", v_in="N/A", w_in="N/A"):
     y = inArray
     fig, ax = plt.subplots(figsize=(5, 4), layout="constrained")
     ax.plot(x, y, "go", label="test")
-    ax.set_xlabel("Unit cell")
+    ax.set_xlabel("Eigenvalue Index")
     ax.set_ylabel("Energy")
     if v_in != "N/A" and w_in != "N/A":
         ax.set_title(f"{title} --- v = {v_in} w = {w_in}")
