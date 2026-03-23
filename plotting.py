@@ -4,7 +4,6 @@ from tkinter import dialog
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
-from sympy import plot
 from chain_coupling import intensities, plot_energy_intensity
 from ssh_tools import plot_energy, plot_energy_comparison, npy_to_ndarray
 import os
@@ -45,7 +44,7 @@ if __name__ == "__main__":
     # print(nDimArray.shape)
     bases_energies = np.array([energies_c_bases, energies_g_bases, energies_t_bases])
     plot_energy_comparison(bases_energies, list_setnames=["cytosine spacer", "guanine spacer", "thymine spacer"], mode="connected", title="DFT energy comparison plot for spacers")
-
+    plot_energy_comparison(nDimArray, list_setnames=namelist, mode="connected", title="DFT calculation energy comparison plot for dimers")
 
     # DIALECT_energy_TotalArray = npy_to_ndarray(data_path = "/home/praktikum/Chris/code/data/")
     # dialect_dimer_array = np.load("/home/praktikum/Chris/code/data/dialect_dimer_calculations/c_dimer_excitation_energies.npy")
