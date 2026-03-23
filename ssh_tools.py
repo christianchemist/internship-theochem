@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 def ssh_hamiltonian(cells, v, w, exEnerg=0.0, start="v"):
 
@@ -53,6 +54,7 @@ def plot_energy(inArray, title="energy plot", v_in="N/A", w_in="N/A"):
     ax.plot(x, y, "go", label="test")
     ax.set_xlabel("Eigenvalue Index")
     ax.set_ylabel("Energy")
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     if v_in != "N/A" and w_in != "N/A":
         ax.set_title(f"{title} --- v = {v_in} w = {w_in}")
     else:
