@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sympy import plot
 from ssh_tools import plot_energy, plot_energy_comparison, npy_to_ndarray
+from datastructure import data
 
 
 # unused energies: 5.338, 5.369, 5.400, 5.428, 5.470, 5.489, 5.509, 5.555])
@@ -11,7 +12,16 @@ from ssh_tools import plot_energy, plot_energy_comparison, npy_to_ndarray
 energies_tco = np.array([[4.215, 4.991, 5.138, 5.265, 5.366, 5.794, 6.431, 6.752, 6.899, 6.959, 7.134, 7.160], [4.047186, 4.440723, 4.946347, 5.078257, 5.416622, 6.103660, 6.191569, 6.623455, 6.756302, 6.821764, 7.007705, 7.073461]])
 # energies_bam = np.array([[0.515, 0.914, 1.135, 1.926, 2.194, 2.363, 2.494, 2.830, 3.293, 3.527, 4.035, 4.126], []]) This structure was corrupted in the .xyz file, so the energies are wrong. Luca or I will have to fix the structure sometime
 
-# the following arrays will contain the excitation energies for the strands of bases, calculated with the DFT program orca.
+# set local energy variables for easier access
+
+energies_a_bases = data["bases monomers"]["adenine"]
+energies_c_bases = data["bases monomers"]["cytosine"]
+energies_g_bases = data["bases monomers"]["guanine"]
+energies_t_bases = data["bases monomers"]["thymine"]
+energies_a_dimer = data["chromophor dimers"]["adenine"]
+energies_c_dimer = data["chromophor dimers"]["cytosine"]
+energies_g_dimer = data["chromophor dimers"]["guanine"]
+energies_t_dimer = data["chromophor dimers"]["thymine"]
 
 
 namelist = ["adenine", "cytosine", "guanine", "thymine"]
