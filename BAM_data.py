@@ -1,58 +1,28 @@
+import array
+
 import numpy as np
 import matplotlib.pyplot as plt
 from ssh_tools import plot_energy, plot_energy_comparison
 from datastructure import data
 
-# TODO: Improve __main__ function. maybe with a loop over a list, I will see
-
-
-full_structure_energies = data["bam"]["full structure"]
-#full_structure_energies = full_structure_energies[:12] # only plot the first 12 energies for better visibility
-short_dimer_energies = data["bam"]["short dimer"]
-long_dimer_energies = data["bam"]["long dimer"]
-monomer_energies = data["bam"]["monomer"]
-twox_energies = data["bam"]["2x"]
-fourx_energies = data["bam"]["4x"]
-adenine_energies = data["bases monomers"]["adenine"]
-cytosine_energies = data["bases monomers"]["cytosine"]
-guanine_energies = data["bases monomers"]["guanine"]
-thymine_energies = data["bases monomers"]["thymine"]
+# "improved" solution for loading all the data, its just not as blocky and a bit more compressed than the previous version. The arrays are stored in a list and the names of the arrays are stored in a separate list, so that they can be easily accessed and plotted. The dataset names are also stored in a separate list for easy access when plotting comparisons.
+array_list = [data["bam"]["full structure"], data["bam"]["short dimer"], data["bam"]["long dimer"], data["bam"]["monomer"], data["bam"]["2x"], data["bam"]["4x"], data["bases monomers"]["adenine"], data["bases monomers"]["cytosine"], data["bases monomers"]["guanine"], data["bases monomers"]["thymine"], data["bam"]["4x no bases"]]
+array_names = ["full structure", "short dimer", "long dimer", "monomer", "2x dimer", "4x dimer", "adenine monomer", "cytosine monomer", "guanine monomer", "thymine monomer", "4x dimer no bases"]
+dataset_names = ["DFT", "DFTB"]
 
 
 if __name__ == "__main__":
     mode = input(" DFT/DFTB or comparison? (enter dft or dftb or comparison): ")
     if mode == "dft":
-        plot_energy(full_structure_energies[0], title="Full BAM structure energies")
-        plot_energy(long_dimer_energies[0], title="Long dimer energies")
-        plot_energy(short_dimer_energies[0], title="Short dimer energies")
-        plot_energy(monomer_energies[0], title="Monomer energies")
-        plot_energy(twox_energies[0], title="2x dimer energies")
-        plot_energy(fourx_energies[0], title="4x dimer energies")
-        plot_energy(adenine_energies[0], title="Adenine monomer energies")
-        plot_energy(cytosine_energies[0], title="Cytosine monomer energies")
-        plot_energy(guanine_energies[0], title="Guanine monomer energies")
-        plot_energy(thymine_energies[0], title="Thymine monomer energies")
+        for array, name in zip(array_list, array_names):
+            plot_energy(array[0], title=f"{name} energies")
+
     elif mode == "dftb":
-        plot_energy(full_structure_energies[1], title="Full BAM structure energies with DFTB")
-        plot_energy(long_dimer_energies[1], title="Long dimer energies with DFTB")
-        plot_energy(short_dimer_energies[1], title="Short dimer energies with DFTB")
-        plot_energy(monomer_energies[1], title="Monomer energies with DFTB")
-        plot_energy(twox_energies[1], title="2x dimer energies with DFTB")
-        plot_energy(fourx_energies[1], title="4x dimer energies with DFTB")
-        plot_energy(adenine_energies[1], title="Adenine monomer energies with DFTB")
-        plot_energy(cytosine_energies[1], title="Cytosine monomer energies with DFTB")
-        plot_energy(guanine_energies[1], title="Guanine monomer energies with DFTB")
-        plot_energy(thymine_energies[1], title="Thymine monomer energies with DFTB")
+        for array, name in zip(array_list, array_names):
+            plot_energy(array[1], title=f"{name} energies with DFTB")
+
     elif mode == "comparison":
-        plot_energy_comparison(full_structure_energies, ["DFT", "DFTB"], title="Full BAM structure energies")
-        plot_energy_comparison(long_dimer_energies, ["DFT", "DFTB"], title="Long dimer energies")
-        plot_energy_comparison(short_dimer_energies, ["DFT", "DFTB"], title="Short dimer energies")
-        plot_energy_comparison(monomer_energies, ["DFT", "DFTB"], title="Monomer energies")
-        plot_energy_comparison(twox_energies, ["DFT", "DFTB"], title="2x dimer energies")
-        plot_energy_comparison(fourx_energies, ["DFT", "DFTB"], title="4x dimer energies")
-        plot_energy_comparison(adenine_energies, ["DFT", "DFTB"], title="Adenine monomer energies")
-        plot_energy_comparison(cytosine_energies, ["DFT", "DFTB"], title="Cytosine monomer energies")
-        plot_energy_comparison(guanine_energies, ["DFT", "DFTB"], title="Guanine monomer energies")
-        plot_energy_comparison(thymine_energies, ["DFT", "DFTB"], title="Thymine monomer energies")
+        for array, name in zip(array_list, array_names):
+            plot_energy_comparison(array, list_setnames=dataset_names, mode="connected", title=f"{name} energy comparison plot")
     else:
         print("Invalid input. Please enter 'dft', 'dftb', or 'comparison'.")
