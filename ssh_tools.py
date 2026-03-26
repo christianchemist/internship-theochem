@@ -1,4 +1,5 @@
 import os
+from turtle import color
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
@@ -53,7 +54,8 @@ def plot_energy(inArray, title="energy plot", v_in="N/A", w_in="N/A"):
     fig, ax = plt.subplots(figsize=(5, 4), layout="constrained")
     ax.plot(x, y, "go", label="test")
     ax.set_xlabel("Eigenvalue Index")
-    ax.set_ylabel("Energy")
+    ax.set_ylabel(r"$E_{exc}$ in eV")
+    ax.grid(True, which="both", linestyle="--", linewidth=0.5)
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     if v_in != "N/A" and w_in != "N/A":
         ax.set_title(f"{title} --- v = {v_in} w = {w_in}")
@@ -92,7 +94,7 @@ def plot_energy_comparison(inArrayMultDim, list_setnames=["dataset 1", "dataset 
         else:
             ax.plot(x, y, "o", label=f"{list_setnames[i]}")
     ax.set_xlabel("Eigenvalue Index")
-    ax.set_ylabel("Energy")
+    ax.set_ylabel(r"$E_{exc}$ in eV")
     ax.set_title(f"{title}")
     ax.legend()
     plt.show()
@@ -107,10 +109,25 @@ def plot_coefficients(inD, inP):
         x = np.arange(len(psi))
         plt.bar(x, psi)
         plt.xlabel("site index")
-        plt.ylabel("coefficients")
+        plt.ylabel(r"$c_i$")
         plt.title(f"State {i}, E = {inD[i]:.6g}")
         plt.show()        
 
+
+def compare_values(inValue, inCompArray):
+
+    """Hyperspecific function to compare a momomer value to the splitting of the dimers. Takes the monomer value as a float and the dimer values as an array. Plots the monomer value at the center and the dimer values on the zame vertical axis."""
+
+    x = np.arange(0, 5)
+    fig, ax = plt.subplots(figsize=(5, 6), layout="constrained")
+    ax.plot([2, 2], [inCompArray[0], inCompArray[1]], "o", linestyle = "none", markerfacecolor="none", markeredgecolor="gray", label="dimer splitting")
+    ax.plot(2, inValue, "o", color="gray", label="monomer energy")
+    ax.set_xlabel("Eigenvalue Index")
+    ax.set_ylabel(r"$E_{exc}$ in eV")
+    ax.set_title("Monomer energy vs Dimer splitting")
+    ax.grid(True, which="both", linestyle="--", linewidth=0.5)
+    ax.legend()
+    plt.show()
 
 
 
