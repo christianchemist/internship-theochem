@@ -95,6 +95,7 @@ def plot_energy_comparison(inArrayMultDim, list_setnames=["dataset 1", "dataset 
             ax.plot(x, y, "o", label=f"{list_setnames[i]}")
     ax.set_xlabel("Eigenvalue Index")
     ax.set_ylabel(r"$E_{exc}$ in eV")
+    ax.grid(True, which="both", linestyle="--", linewidth=0.5)
     ax.set_title(f"{title}")
     ax.legend()
     plt.show()
@@ -114,18 +115,20 @@ def plot_coefficients(inD, inP):
         plt.show()        
 
 
-def compare_values(inValue, inCompArray):
+def compare_values(inValue, inCompArray, title="Monomer vs Dimer comparison"):
 
     """Hyperspecific function to compare a momomer value to the splitting of the dimers. Takes the monomer value as a float and the dimer values as an array. Plots the monomer value at the center and the dimer values on the zame vertical axis."""
 
     x = np.arange(0, 5)
-    fig, ax = plt.subplots(figsize=(5, 6), layout="constrained")
+    fig, ax = plt.subplots(figsize=(4, 6), layout="constrained")
     ax.plot([2, 2], [inCompArray[0], inCompArray[1]], "o", linestyle = "none", markerfacecolor="none", markeredgecolor="gray", label="dimer splitting")
     ax.plot(2, inValue, "o", color="gray", label="monomer energy")
-    ax.set_xlabel("Eigenvalue Index")
+    ax.set_xlabel("")
+    ax.tick_params(axis='x', labelbottom=False)
     ax.set_ylabel(r"$E_{exc}$ in eV")
-    ax.set_title("Monomer energy vs Dimer splitting")
+    ax.set_title(title)
     ax.grid(True, which="both", linestyle="--", linewidth=0.5)
+    ax.set_ylim(min(inCompArray[0], inValue) - 0.1, max(inCompArray[1], inValue) + 0.1)
     ax.legend()
     plt.show()
 

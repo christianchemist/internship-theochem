@@ -19,6 +19,8 @@ comp2 = np.vstack((twox[0], twox_no[0]))
 if __name__ == "__main__":
     mode = input(" DFT/DFTB or comparison? (enter dft or dftb or comp): ")
     if mode == "dft":
+        plot_energy(fourx[0], title="4x Chromophore DFT energies")
+        plot_energy(fourx_no[0], title="4x Chromophore no bases DFT energies")
         for array, name in zip(array_list, array_names):
             plot_energy(array[0], title=f"{name} energies")
 

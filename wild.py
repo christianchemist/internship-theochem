@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sympy import comp
 from ssh_tools import plot_energy, compare_values
 from datastructure import data
 
@@ -13,5 +12,5 @@ print("BAM monomer energies:", bam_monomer)
 print("BAM short dimer energies:", bam_short_dimer)
 print("BAM long dimer energies:", bam_long_dimer)
 
-compare_values(bam_monomer, bam_short_dimer)
-compare_values(bam_monomer, bam_long_dimer)
+compare_values(bam_monomer, bam_short_dimer, title="Short-distanced dimer energy splitting")
+compare_values(bam_monomer, bam_long_dimer, title="Long-distanced dimer energy splitting")
