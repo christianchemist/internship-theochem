@@ -1,8 +1,6 @@
 # internship-theochem
-Code for my internship at AK Mitric
+Code for my assitant role at AK Mitric
 
 TODO:
-Powerpoint machen
-    Plot comparison fpr 4x mit und ohne
-    monomer S1 mit dimer splitting vergleiching (compare_values)
-    dinge aus gründen
+    Wait for dynamics calculation to finish, then analyse it with the newly made methods in dynamics.py
+    Do larger scale dynamics with DIALECT, 4x, 2x, with bases, etc. 
