@@ -1,16 +1,7 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from ssh_tools import plot_energy, compare_values
-from datastructure import data
+from dynamics_data import all_dynamics_plots, single_state_dynamics_plot, single_state_presentation
 
-bam_monomer = data["bam"]["monomer"][0][0]
-bam_short_dimer = data["bam"]["short dimer"][0][0:2]
-bam_long_dimer = data["bam"]["long dimer"][0][0:2]
+full_data = np.load(r"C:\Users\chris\OneDrive\Dokumente\Uni\internship-theochem\data\dynamics\test4\abs_coefficients_all.npy")
 
-
-print("BAM monomer energies:", bam_monomer)
-print("BAM short dimer energies:", bam_short_dimer)
-print("BAM long dimer energies:", bam_long_dimer)
-
-compare_values(bam_monomer, bam_short_dimer, title="Short-distanced dimer energy splitting")
-compare_values(bam_monomer, bam_long_dimer, title="Long-distanced dimer energy splitting")
+all_dynamics_plots(full_data)
+single_state_presentation(full_data)
