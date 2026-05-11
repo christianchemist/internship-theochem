@@ -21,11 +21,10 @@ def single_state_dynamics_plot(data_array, state_index):
     plt.title(f"Time evolution of coefficient for state {state_index}")
     plt.show()
 
-def single_state_presentation(data_array):
+def consecutive_state_presentation(data_array, start_index, end_index):
     """Plots the time evolution of a single coefficient (state) across all dynamics steps, asking the user for the last state index to plot.\n
-    Takes in the total dynamics data array."""
-    end = int(input("how many states do you want to plot? (starts at 0) "))
-    for i in range(end):
+    Takes in the total dynamics data array, the start index of the state to plot, and the end index of the state to plot."""
+    for i in range(start_index, end_index + 1):
         single_state_dynamics_plot(data_array, state_index=i)
 
 if __name__ == "__main__":
