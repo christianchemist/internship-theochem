@@ -4,6 +4,8 @@ import os
 
 
 def all_dynamics_plots(data_array):
+    """Creates a heatmap of the dynamics data, showing the evolution of coefficients over time.\n
+    Takes in the total dynamics data array, which should be of shape (num_steps, num_states)."""
     plt.imshow(data_array.T, aspect="auto", origin="lower")
     plt.xlabel("dynamics step")
     plt.ylabel("coefficient / site index")
@@ -11,6 +13,8 @@ def all_dynamics_plots(data_array):
     plt.show()
 
 def single_state_dynamics_plot(data_array, state_index):
+    """Plots the time evolution of a single coefficient (state) across all dynamics steps.\n
+    Takes in the total dynamics data array and the index of the state to plot."""
     plt.plot(data_array[:, state_index])
     plt.xlabel("dynamics step")
     plt.ylabel(r"$|c_i(t)|^2$")
@@ -18,6 +22,8 @@ def single_state_dynamics_plot(data_array, state_index):
     plt.show()
 
 def single_state_presentation(data_array):
+    """Plots the time evolution of a single coefficient (state) across all dynamics steps, asking the user for the last state index to plot.\n
+    Takes in the total dynamics data array."""
     end = int(input("how many states do you want to plot? (starts at 0) "))
     for i in range(end):
         single_state_dynamics_plot(data_array, state_index=i)
