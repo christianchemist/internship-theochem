@@ -1,3 +1,4 @@
+# USAGE: python coeff_script.py <steps> [--dir <directory>] ---- A bit obsolte since the output of DIALECT also gives the full array as an .npz
 import numpy as np
 import os
 import argparse

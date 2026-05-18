@@ -27,6 +27,15 @@ def consecutive_state_presentation(data_array, start_index, end_index):
     for i in range(start_index, end_index + 1):
         single_state_dynamics_plot(data_array, state_index=i)
 
+def data_load(path):
+    """Loads the dynamics data from a .npy or .npz file and returns it as a numpy array."""
+    if path.endswith(".npy"):
+        return np.load(path)
+    elif path.endswith(".npz"):
+        data = np.load(path)
+        arrays = [data[key] for key in data.files]
+        return np.stack(arrays, axis=0)
+
 if __name__ == "__main__":
     data_array = np.load("/home/praktikum/Chris/code/data/dynamics/test3/abs_coefficients_all.npy") #linux path, change if on windows
     single_state_dynamics_plot(data_array, state_index=0)
