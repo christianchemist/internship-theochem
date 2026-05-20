@@ -68,4 +68,6 @@ def main():
     check_vectors(active_vector_list, norm_tolerance=args.norm_tolerance, vec_tolerance=args.vec_tolerance, verbose=args.verbose)
 
 if __name__ == "__main__":
+    print("-" * 50)
     main()
+    print("-" * 50)
