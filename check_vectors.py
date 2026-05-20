@@ -64,7 +64,7 @@ def main():
     args = parser.parse_args()
 
     read_path = os.path.abspath(args.file)
-    active_vector_list = read_xyz(read_path, returnSymbols=False)
+    _, active_vector_list = read_xyz(read_path, returnSymbols=True)
     check_vectors(active_vector_list, norm_tolerance=args.norm_tolerance, vec_tolerance=args.vec_tolerance, verbose=args.verbose)
 
 if __name__ == "__main__":
