@@ -57,6 +57,7 @@ def check_vectors(vector_list: np.ndarray, norm_tolerance=0.5, vec_tolerance=0.2
             print(f"Vectornorms at indices {j} and {k} are close. Are the vectors close? {check}")
     if True in check_list:
         print(f"Close vector pair found. Indices: {indices_list}")
+        print(f"Vectors: \n {vector_list[indices_list]}")
     else:
         print("No close vector pairs found.")
 
