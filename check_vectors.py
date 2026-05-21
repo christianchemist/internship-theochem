@@ -2,7 +2,7 @@ import numpy as np
 import argparse
 import os.path
 
-scrambled_vector_list = np.array([[0, 100, 0], [100, 0, 0], [5, 5, 5], [0, 0, 0], [10, 10, 10], [15, 15, 15], [20, 20, 20], [1, 1, 1], [6, 6, 6], [11, 11, 11], [16, 16, 16], [2, 2, 2], [7, 7, 7], [12, 12, 12], [17, 17, 17], [3, 3, 3], [8, 8, 8], [13, 13, 13], [18, 18, 18], [4, 4, 4], [9, 9, 9], [14, 14, 14], [19, 19, 19], [20.1,20.1 ,20.1]])
+scrambled_vector_list = np.array([[0, 100, 0], [100, 0, 0], [0, 0, 100], [5, 5, 5], [0, 0, 0], [10, 10, 10], [15, 15, 15], [20, 20, 20], [1, 1, 1], [6, 6, 6], [11, 11, 11], [16, 16, 16], [2, 2, 2], [7, 7, 7], [12, 12, 12], [17, 17, 17], [3, 3, 3], [8, 8, 8], [13, 13, 13], [18, 18, 18], [4, 4, 4], [9, 9, 9], [14, 14, 14], [19, 19, 19], [20.1,20.1 ,20.1]])
 
 def read_xyz(file_path, returnSymbols=False):
     """Reads an XYZ file and returns a list of atom symbols and a numpy array of coordinates. If returnSymbols is False, only the coordinates are returned."""
@@ -44,16 +44,22 @@ def check_vectors(vector_list: np.ndarray, norm_tolerance=0.5, vec_tolerance=0.2
             
     if verbose:
         print("Close vector pairs (indices):", close_vectors)
-    for element in close_vectors:
-        if verbose:
-            print("-" * 50)
-            print(f"Comparing vector at index {element[0]} and vector at index {element[1]}:")
-            print(f"Vector 1: {vector_list[element[0]]}")
-            print(f"Vector 2: {vector_list[element[1]]}")
-            print(f"Are the vectors close? {np.allclose(vector_list[element[0]], vector_list[element[1]], atol=vec_tolerance)}")
-            print("-" * 50)
-        else:
-            print(f"Vectornorms at indices {element[0]} and {element[1]} are close. Are the vectors close? {np.allclose(vector_list[element[0]], vector_list[element[1]], atol=vec_tolerance)}")
+
+    indices_list = []
+    check_list = []
+    for element in close_vectors: # close_vectors is a list of tuples containing the indices of the close vectors
+        j, k = element
+        check = (np.allclose(vector_list[j], vector_list[k], atol=vec_tolerance))
+        if check:
+            check_list.append(check)
+            indices_list.append((element))
+        if verbose and check:
+            print(f"Vectornorms at indices {j} and {k} are close. Are the vectors close? {check}")
+    if True in check_list:
+        print(f"Close vector pair found. Indices: {indices_list}")
+    else:
+        print("No close vector pairs found.")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Check a list of vectors for close pairs based on their norms and vector values.")
